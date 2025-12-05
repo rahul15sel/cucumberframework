@@ -6,6 +6,7 @@ on:
   pull_request:
 
 jobs:
+
   checkout:
     runs-on: ubuntu-latest
     steps:
@@ -25,7 +26,7 @@ jobs:
           java-version: "17"
           distribution: "temurin"
 
-      - name: Cache Maven packages
+      - name: Cache Maven Packages
         uses: actions/cache@v4
         with:
           path: ~/.m2
@@ -49,19 +50,6 @@ jobs:
 
       - name: Run Tests
         run: mvn clean test
-      
-      - name: Upload Allure Results
-        uses: actions/upload-artifact@v4
-        with:
-           name: allure-results
-           path: target/allure-results
-
-  allure-results:
-    runs-on: ubuntu-latest
-    needs: test
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
 
       - name: Upload Allure Results
         uses: actions/upload-artifact@v4
@@ -71,18 +59,18 @@ jobs:
 
   allure-report:
     runs-on: ubuntu-latest
-    needs: allure-results
-  
+    needs: test
+
     steps:
-      - name: Checkout code
+      - name: Checkout Code
         uses: actions/checkout@v4
-  
+
       - name: Download Allure Results
         uses: actions/download-artifact@v4
         with:
           name: allure-results
           path: allure-results
-  
+
       - name: Install Allure CLI
         run: |
           sudo apt update
@@ -91,18 +79,9 @@ jobs:
           tar -zxvf allure-2.27.0.tgz
           sudo mv allure-2.27.0 /opt/allure
           sudo ln -s /opt/allure/bin/allure /usr/bin/allure
-  
+
       - name: Generate Allure Report
-        run: |
-          allure generate allure-results --clean -o allure-report
-  
-      - name: Upload Allure HTML Report
-        uses: actions/upload-artifact@v4
-        with:
-          name: allure-report
-          path: allure-report
-
-
+        run: allure generate allure-results --clean -o allure-report
 
       - name: Upload Allure HTML Report
         uses: actions/upload-artifact@v4
