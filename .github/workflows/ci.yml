@@ -6,6 +6,7 @@ on:
   pull_request:
 
 jobs:
+  development:
 
   # -------------------------------
   # 1. CHECKOUT STAGE
