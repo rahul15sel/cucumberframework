@@ -7,13 +7,12 @@ on:
 
 jobs:
 
-
   # -------------------------------
-  # 1. CHECKOUT STAGE
+  # 1. CHECKOUT / DEVELOPMENT STAGE (manual approval)
   # -------------------------------
-  checkout:
   development:
     runs-on: ubuntu-latest
+    environment: development   # <-- Add manual approval from GitHub environment protection rule
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
