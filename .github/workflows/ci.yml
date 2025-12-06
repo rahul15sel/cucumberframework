@@ -90,27 +90,28 @@ jobs:
           path: allure-report
 
   # -------------------------------
-  # 5. DEPLOY STAGE (MANUAL APPROVAL)
+  # 5. DEPLOY TO DEVELOPMENT
   # -------------------------------
-  deploy1:
+  deploy-development:
     runs-on: ubuntu-latest
     needs: allure-report
-
-    # 👇 Requires manual approval
     environment:
       name: development
-      url: https://example.com
-
-
-    deploy:
-      needs: deploy1, allure-report
-      runs-on: ubuntu-latest
-
-      # 👇 Requires manual approval
-      environment:
-        name: production
-        url: https://example.com
-
+      url: https://dev.example.com
     steps:
-      - name: Deployment Placeholder
-        run: echo "Deployment step after Allure report"
+      - name: Deploy to Development
+        run: echo "Deployed to DEVELOPMENT successfully"
+
+  # -------------------------------
+  # 6. DEPLOY TO PRODUCTION (MANUAL APPROVAL)
+  # -------------------------------
+  deploy-production:
+    runs-on: ubuntu-latest
+    needs: deploy-development
+    environment:
+      name: production
+      url: https://prod.example.com
+      # NOTE: This environment must be configured in GitHub repo/settings with approval
+    steps:
+      - name: Deploy to Production
+        run: echo "Deployed to PRODUCTION after manual approval"
