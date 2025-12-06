@@ -92,14 +92,24 @@ jobs:
   # -------------------------------
   # 5. DEPLOY STAGE (MANUAL APPROVAL)
   # -------------------------------
-  deploy:
+  deploy1:
     runs-on: ubuntu-latest
     needs: allure-report
 
     # 👇 Requires manual approval
     environment:
-      name: production
+      name: development
       url: https://example.com
+
+
+    deploy:
+      needs: deploy1, allure-report
+      runs-on: ubuntu-latest
+
+      # 👇 Requires manual approval
+      environment:
+        name: production
+        url: https://example.com
 
     steps:
       - name: Deployment Placeholder
