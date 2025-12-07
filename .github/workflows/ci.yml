@@ -3,8 +3,10 @@ name: Cucumber TestNG CI Pipeline
 on:
   push:
     branches: ["main"]
-  pull_request:
 
+  pull_request:
+  schedule:
+    - cron: "0 * * * *"   # Runs every hour
 jobs:
 
   # -------------------------------
